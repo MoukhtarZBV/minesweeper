@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 public class Icon {
 	
 	public static final ImageIcon FLAG = Icon.getIcon("flag");
-	public static final ImageIcon BOMB = Icon.getIcon("bomb");
+	public static final ImageIcon MINE = Icon.getIcon("mine");
 	
 	private static ImageIcon getIcon(String type) {
 		ImageIcon icon = new ImageIcon(CellJButton.class.getResource("/images/" + type + ".png"));

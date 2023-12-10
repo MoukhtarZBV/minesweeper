@@ -6,21 +6,33 @@ import java.util.List;
 
 public class Grid {
 
-	private CellJButton[][] grid;
+	private int[][] grid;
 	private int columns;
 	private int rows;
 	private int numberOfBombs;
 	
 	public Grid(int rows, int columns, int numberOfBombs) {
-		this.grid = new CellJButton[rows][columns];
+		this.grid = new int[rows][columns];
 		this.columns = columns;
 		this.rows = rows;
 		this.numberOfBombs = numberOfBombs;
 		this.generateGrid();
 	}
 	
-	private void setCell(int x, int y, State state) {
-		this.grid[x][y].setState(State.EMPTY);
+	public int getRows() {
+		return this.rows;
+	}
+	
+	public int getColumns() {
+		return this.columns;
+	}
+	
+	public int getValueAt(int x, int y) {
+		return grid[x][y];
+	}
+	
+	private void setCell(int x, int y, int value) {
+		this.grid[x][y] = value;
 	}
 	
 	private void generateGrid() {
@@ -34,7 +46,7 @@ public class Grid {
 		Collections.shuffle(positionOfBombs);
 		for (int i = 0; i < this.rows; i++) {
 			for (int j = 0; j < this.columns; j++) {
-				//this.setCell(i, j, positionOfBombs.get((i*this.columns) + j));
+				this.setCell(i, j, positionOfBombs.get((i*this.columns) + j));
 			}
 		}
 	}

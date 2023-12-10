@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -87,6 +88,7 @@ public class GridView extends JFrame {
 			for (int j = 0; j < columns; j++) {
 				CellJButton button = new CellJButton(i, j);
 				button.addMouseListener(controller);
+				button.setBackground(Color.WHITE);
 				cells.add(button);
 				button.setPreferredSize(new Dimension(20,20));
 				panelCells.add(button);
@@ -95,11 +97,27 @@ public class GridView extends JFrame {
 		this.grid = new Grid(rows, columns, 50);
 	}
 
-	public void setFlag(int x, int y) {
-		CellJButton cell = getCellAt(x, y);
-		if (cell != null) {
-			cell.setState(State.FLAG);
+	public void setFlag(int x, int y) throws IllegalArgumentException {
+		if (x < 0 || x > this.grid.getRows() ||
+			y < 0 || y > this.grid.getColumns()) {
+			throw new IllegalArgumentException("Index out of grid's range");
 		}
+		CellJButton cell = getCellAt(x, y);
+		cell.setState(State.FLAG);
+	}
+	
+	public void undiscoverCell(int x, int y) {
+		if (x < 0 || x > this.grid.getRows() ||
+			y < 0 || y > this.grid.getColumns()) {
+			throw new IllegalArgumentException("Index out of grid's range");
+		}
+		CellJButton cell = getCellAt(x, y);
+		
+		
+	}
+	
+	public Grid getGrid() {
+		return grid;
 	}
 	
 	public CellJButton getCellAt(int x, int y) {

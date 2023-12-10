@@ -31,12 +31,10 @@ public class CellJButton extends JButton {
 		this.state = state;
 		switch (state) {
 		case FLAG:
-			ImageIcon icon = new ImageIcon(CellJButton.class.getResource("/images/flag.png"));
-			Image img = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-			icon = new ImageIcon(img);
-			this.setIcon(icon);
+			this.setIcon(Icon.FLAG);
 			break;
-		case BOMB:
+		case MINE:
+			this.setIcon(Icon.MINE);
 		}
 		
 	}

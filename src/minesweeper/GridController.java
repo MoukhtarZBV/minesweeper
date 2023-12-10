@@ -18,7 +18,8 @@ public class GridController implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		CellJButton cell = (CellJButton) e.getSource();
-		
+		int number = model.numberOfAdjacentMines(view.getGrid(), cell.getRow(), cell.getColumn());
+		cell.setState(State.getState(number));
 	}
 
 	@Override

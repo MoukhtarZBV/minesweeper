@@ -2,7 +2,7 @@ package minesweeper;
 
 public enum State {
 
-	UNDISCOVERED(-1), EMPTY(0), ONE(1), TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6), SEVEN(7), EIGHT(8), BOMB(9), FLAG(10);
+	UNDISCOVERED(-1), EMPTY(0), ONE(1), TWO(2), THREE(3), FOUR(4), FIVE(5), SIX(6), SEVEN(7), EIGHT(8), MINE(9), FLAG(10);
 	
 	private int value;
 	
@@ -12,5 +12,14 @@ public enum State {
 	
 	public int getValue() {
 		return this.value;
+	}
+	
+	public static State getState(int value) {
+		for (State state : State.values()) {
+			if (state.getValue() == value) {
+				return state;
+			}
+		}
+		return null;
 	}
 }
