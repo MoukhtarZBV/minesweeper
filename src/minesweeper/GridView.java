@@ -7,14 +7,17 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import javax.swing.JCheckBox;
+import javax.swing.border.LineBorder;
 
 public class GridView extends JFrame {
 
@@ -22,15 +25,17 @@ public class GridView extends JFrame {
 	private JPanel contentPane;
 	
 	private JPanel panelCells;
-	private JPanel panelButtons;
-	private JButton btnNewButton;
-	private JButton btnNewButton_1;
+	private JPanel panelButtonsContainer;
+	private JPanel panelCellsContainer;
 	
 	private List<CellJButton> cells;
 	
 	private Grid grid;
 
 	public static final int CELL_SIZE = 30;
+	private JPanel panelButtons;
+	private JButton btnNewGame;
+	private JButton btnSettings;
 	
 	/**
 	 * Launch the application.
@@ -63,30 +68,50 @@ public class GridView extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.setBackground(Color.decode("#1B1B1B"));
 		
-		JPanel panelCellsContainer = new JPanel();
+		panelCellsContainer = new JPanel();
 		panelCellsContainer.setMaximumSize(new Dimension(15, 15));
 		contentPane.add(panelCellsContainer, BorderLayout.CENTER);
 		panelCellsContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		panelCellsContainer.setBackground(Color.decode("#1B1B1B"));
-
 		
 		panelCells = new JPanel();
-		panelCells.setMaximumSize(new Dimension(15, 15));
 		panelCellsContainer.add(panelCells);
 		
+		panelButtonsContainer = new JPanel();
+		panelButtonsContainer.setBackground(Color.decode("#1B1B1B"));
+		contentPane.add(panelButtonsContainer, BorderLayout.NORTH);
+		
 		panelButtons = new JPanel();
+		panelButtons.setPreferredSize(new Dimension(360, 36));
 		panelButtons.setBackground(Color.decode("#1B1B1B"));
-		contentPane.add(panelButtons, BorderLayout.NORTH);
+		FlowLayout flowLayout = (FlowLayout) panelButtons.getLayout();
+		flowLayout.setAlignment(FlowLayout.RIGHT);
+		panelButtonsContainer.add(panelButtons);
 		
-		btnNewButton = new JButton("New button");
-		panelButtons.add(btnNewButton);
+		btnSettings = new JButton("<html><body style='padding: 5px 10px;'>Settings</body></html>");
+		btnSettings.setName("Settings");
+		btnSettings.setForeground(Color.decode("#C4C38A"));
+		btnSettings.setBackground(Color.decode("#1B1B1B"));
+		btnSettings.setBorder(new LineBorder(new Color(85, 53, 85)));
+		panelButtons.add(btnSettings);
 		
-		btnNewButton_1 = new JButton("New button");
-		panelButtons.add(btnNewButton_1);
+		btnNewGame = new JButton("<html><body style='padding: 5px 10px;'>New game</body></html>");
+		btnNewGame.setName("New Game");
+		btnNewGame.setForeground(Color.decode("#C4C38A"));
+		btnNewGame.setBackground(Color.decode("#1B1B1B"));
+		btnNewGame.setBorder(new LineBorder(new Color(85, 53, 85)));
+		btnNewGame.addActionListener(controller);
+		panelButtons.add(btnNewGame);
+		
 		initialiseCells(12, 12, controller);
 	}
 	
 	public void initialiseCells(int rows, int columns, GridController controller) {
+		panelCellsContainer.remove(panelCells);
+		panelCellsContainer.revalidate();
+		panelCellsContainer.repaint();
+		panelCells = new JPanel();
+		panelCellsContainer.add(panelCells);
 		panelCells.setLayout(new GridLayout(rows, columns, 0, 0));
 		cells = new ArrayList<>();
 		for (int i = 0; i < rows; i++) {
