@@ -27,6 +27,10 @@ public class CellJButton extends JButton {
 		return this.column;
 	}
 	
+	public State getState() {
+		return this.state;
+	}
+	
 	public void setState(State state) {
 		this.state = state;
 		switch (state) {
@@ -35,6 +39,34 @@ public class CellJButton extends JButton {
 			break;
 		case MINE:
 			this.setIcon(Icon.MINE);
+			break;
+		case EMPTY:
+			this.setIcon(Icon.EMPTY);
+			break;
+		case ONE:
+			this.setIcon(Icon.ONE);
+			break;
+		case TWO:
+			this.setIcon(Icon.TWO);
+			break;
+		case THREE:
+			this.setIcon(Icon.THREE);
+			break;
+		case FOUR:
+			this.setIcon(Icon.FOUR);
+			break;
+		case FIVE:
+			this.setIcon(Icon.FIVE);
+			break;
+		case SIX:
+			this.setIcon(Icon.SIX);
+			break;
+		case SEVEN:
+			this.setIcon(Icon.SEVEN);
+			break;
+		case EIGHT:
+			this.setIcon(Icon.EIGHT);
+			break;
 		}
 		
 	}

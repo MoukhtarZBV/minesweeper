@@ -86,38 +86,29 @@ public class GridView extends JFrame {
 		cells = new ArrayList<>();
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				CellJButton button = new CellJButton(i, j);
-				button.addMouseListener(controller);
-				button.setBackground(Color.WHITE);
-				cells.add(button);
-				button.setPreferredSize(new Dimension(20,20));
-				panelCells.add(button);
+				CellJButton cell = new CellJButton(i, j);
+				cell.setState(State.UNDISCOVERED);
+				cell.addMouseListener(controller);
+				cell.addActionListener(controller);
+				cell.setBackground(Color.WHITE);
+				cell.setPreferredSize(new Dimension(20,20));
+				cells.add(cell);
+				panelCells.add(cell);
 			}
 		}
-		this.grid = new Grid(rows, columns, 50);
-	}
-
-	public void setFlag(int x, int y) throws IllegalArgumentException {
-		if (x < 0 || x > this.grid.getRows() ||
-			y < 0 || y > this.grid.getColumns()) {
-			throw new IllegalArgumentException("Index out of grid's range");
-		}
-		CellJButton cell = getCellAt(x, y);
-		cell.setState(State.FLAG);
+		this.grid = new Grid(rows, columns, 20);
+		System.out.println(grid);
 	}
 	
-	public void undiscoverCell(int x, int y) {
-		if (x < 0 || x > this.grid.getRows() ||
-			y < 0 || y > this.grid.getColumns()) {
-			throw new IllegalArgumentException("Index out of grid's range");
-		}
+	public State undiscoverCell(int x, int y) {
 		CellJButton cell = getCellAt(x, y);
-		
-		
-	}
-	
-	public Grid getGrid() {
-		return grid;
+		if (this.grid.getValueAt(x, y) == 0) {
+			State state = State.getState(this.grid.numberOfAdjacentMines(x, y));
+			cell.setState(state);
+			return state;
+		}
+		cell.setState(State.MINE);
+		return State.MINE;
 	}
 	
 	public CellJButton getCellAt(int x, int y) {
@@ -127,5 +118,21 @@ public class GridView extends JFrame {
 			}
 		}
 		return null;
+	}
+	
+	public void undiscoverSurroundingEmptys(int x, int y) {
+		if (undiscoverCell(x, y) == State.EMPTY) {
+			for (int i = x - 1; i <= x + 1; i++) {
+				for (int j = y - 1; j <= y + 1; j++) {
+					if (i >= 0 && i < this.grid.getRows() &&
+						j >= 0 && j < this.grid.getColumns() &&
+						!(i == x && j == y)) {
+							if (getCellAt(i, j).getState() == State.UNDISCOVERED) {
+								undiscoverSurroundingEmptys(i, j);
+							}
+					}
+				}
+			}
+		}
 	}
 }

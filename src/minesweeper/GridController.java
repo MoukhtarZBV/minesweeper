@@ -18,15 +18,23 @@ public class GridController implements ActionListener, MouseListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		CellJButton cell = (CellJButton) e.getSource();
-		int number = model.numberOfAdjacentMines(view.getGrid(), cell.getRow(), cell.getColumn());
-		cell.setState(State.getState(number));
+		if (cell.getState() == State.UNDISCOVERED) {
+			State cellState = view.undiscoverCell(cell.getRow(), cell.getColumn());
+			if (cellState == State.EMPTY) {
+				view.undiscoverSurroundingEmptys(cell.getRow(), cell.getColumn());
+			}
+		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON3) {
 			CellJButton cell = (CellJButton) e.getSource();
-			view.setFlag(cell.getRow(), cell.getColumn());
+			if (cell.getState() == State.UNDISCOVERED) {
+				cell.setState(State.FLAG);
+			} else if (cell.getState() == State.FLAG) {
+				cell.setState(State.UNDISCOVERED);
+			}
 		}
 	}
 

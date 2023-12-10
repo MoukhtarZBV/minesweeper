@@ -51,6 +51,20 @@ public class Grid {
 		}
 	}
 	
+	public int numberOfAdjacentMines(int x, int y) {
+		int number = 0;
+		for (int i = x - 1; i <= x + 1; i++) {
+			for (int j = y - 1; j <= y + 1; j++) {
+				if (i >= 0 && i < this.getRows() &&
+					j >= 0 && j < this.getColumns() &&
+					!(i == x && j == y))	{
+					number += this.getValueAt(i, j);
+				}
+			}
+		}
+		return number;
+	}
+	
 	@Override
 	public String toString() {
 		String str = "";
