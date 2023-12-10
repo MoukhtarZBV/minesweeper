@@ -2,10 +2,12 @@ package minesweeper;
 
 import java.awt.Image;
 
+
 import javax.swing.ImageIcon;
 
 public class Icon {
 	
+	public static final ImageIcon UNDISCOVERED = Icon.getIcon("undiscovered");
 	public static final ImageIcon FLAG = Icon.getIcon("flag");
 	public static final ImageIcon MINE = Icon.getIcon("mine");
 	public static final ImageIcon EMPTY = Icon.getIcon("empty");
@@ -19,8 +21,7 @@ public class Icon {
 	public static final ImageIcon EIGHT = Icon.getIcon("eight");
 	
 	private static ImageIcon getIcon(String type) {
-		ImageIcon icon = new ImageIcon(CellJButton.class.getResource("/images/" + type + ".png"));
-		Image img = icon.getImage().getScaledInstance(25, 25, Image.SCALE_SMOOTH);
-		return new ImageIcon(img);
-	}
+        ImageIcon originalIcon = new ImageIcon(CellJButton.class.getResource("/images/" + type + ".png"));
+        return new ImageIcon(originalIcon.getImage().getScaledInstance(GridView.CELL_SIZE, GridView.CELL_SIZE, Image.SCALE_DEFAULT));
+    }
 }

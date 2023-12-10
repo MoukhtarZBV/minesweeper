@@ -34,6 +34,9 @@ public class CellJButton extends JButton {
 	public void setState(State state) {
 		this.state = state;
 		switch (state) {
+		case UNDISCOVERED:
+			this.setIcon(Icon.UNDISCOVERED);
+			break;
 		case FLAG:
 			this.setIcon(Icon.FLAG);
 			break;

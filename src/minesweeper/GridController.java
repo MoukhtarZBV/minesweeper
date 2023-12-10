@@ -19,9 +19,10 @@ public class GridController implements ActionListener, MouseListener {
 	public void actionPerformed(ActionEvent e) {
 		CellJButton cell = (CellJButton) e.getSource();
 		if (cell.getState() == State.UNDISCOVERED) {
-			State cellState = view.undiscoverCell(cell.getRow(), cell.getColumn());
+			System.out.println(cell.getWidth() + " - " + cell.getHeight());
+			State cellState = view.discoverCell(cell.getRow(), cell.getColumn());
 			if (cellState == State.EMPTY) {
-				view.undiscoverSurroundingEmptys(cell.getRow(), cell.getColumn());
+				view.discoverSurroundingEmptys(cell.getRow(), cell.getColumn());
 			}
 		}
 	}

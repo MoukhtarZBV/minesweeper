@@ -30,6 +30,8 @@ public class GridView extends JFrame {
 	
 	private Grid grid;
 
+	public static final int CELL_SIZE = 30;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -90,8 +92,8 @@ public class GridView extends JFrame {
 				cell.setState(State.UNDISCOVERED);
 				cell.addMouseListener(controller);
 				cell.addActionListener(controller);
-				cell.setBackground(Color.WHITE);
-				cell.setPreferredSize(new Dimension(20,20));
+				cell.setPreferredSize(new Dimension(CELL_SIZE, CELL_SIZE));
+				cell.setBorderPainted(false);
 				cells.add(cell);
 				panelCells.add(cell);
 			}
@@ -100,7 +102,7 @@ public class GridView extends JFrame {
 		System.out.println(grid);
 	}
 	
-	public State undiscoverCell(int x, int y) {
+	public State discoverCell(int x, int y) {
 		CellJButton cell = getCellAt(x, y);
 		if (this.grid.getValueAt(x, y) == 0) {
 			State state = State.getState(this.grid.numberOfAdjacentMines(x, y));
@@ -120,15 +122,15 @@ public class GridView extends JFrame {
 		return null;
 	}
 	
-	public void undiscoverSurroundingEmptys(int x, int y) {
-		if (undiscoverCell(x, y) == State.EMPTY) {
+	public void discoverSurroundingEmptys(int x, int y) {
+		if (discoverCell(x, y) == State.EMPTY) {
 			for (int i = x - 1; i <= x + 1; i++) {
 				for (int j = y - 1; j <= y + 1; j++) {
 					if (i >= 0 && i < this.grid.getRows() &&
 						j >= 0 && j < this.grid.getColumns() &&
 						!(i == x && j == y)) {
 							if (getCellAt(i, j).getState() == State.UNDISCOVERED) {
-								undiscoverSurroundingEmptys(i, j);
+								discoverSurroundingEmptys(i, j);
 							}
 					}
 				}
