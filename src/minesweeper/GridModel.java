@@ -59,7 +59,8 @@ public class GridModel {
 					if (i >= 0 && i < grid.getRows() &&
 						j >= 0 && j < grid.getColumns() &&
 						!(i == x && j == y)) {
-							if (getCellAt(i, j, cells).getState() == State.UNDISCOVERED) {
+							if (getCellAt(i, j, cells).getState() == State.UNDISCOVERED ||
+								getCellAt(i, j, cells).getState() == State.FLAG) {
 								discoverSurroundingEmptys(i, j, cells, grid);
 							}
 					}

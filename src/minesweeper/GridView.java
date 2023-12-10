@@ -22,7 +22,7 @@ public class GridView extends JFrame {
 	private JPanel contentPane;
 	
 	private JPanel panelCells;
-	private JPanel panel;
+	private JPanel panelButtons;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
 	
@@ -61,25 +61,28 @@ public class GridView extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.setBackground(Color.decode("#1B1B1B"));
 		
 		JPanel panelCellsContainer = new JPanel();
 		panelCellsContainer.setMaximumSize(new Dimension(15, 15));
 		contentPane.add(panelCellsContainer, BorderLayout.CENTER);
 		panelCellsContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panelCellsContainer.setBackground(Color.decode("#1B1B1B"));
 
 		
 		panelCells = new JPanel();
 		panelCells.setMaximumSize(new Dimension(15, 15));
 		panelCellsContainer.add(panelCells);
 		
-		panel = new JPanel();
-		contentPane.add(panel, BorderLayout.NORTH);
+		panelButtons = new JPanel();
+		panelButtons.setBackground(Color.decode("#1B1B1B"));
+		contentPane.add(panelButtons, BorderLayout.NORTH);
 		
 		btnNewButton = new JButton("New button");
-		panel.add(btnNewButton);
+		panelButtons.add(btnNewButton);
 		
 		btnNewButton_1 = new JButton("New button");
-		panel.add(btnNewButton_1);
+		panelButtons.add(btnNewButton_1);
 		initialiseCells(12, 12, controller);
 	}
 	
