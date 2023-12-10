@@ -7,29 +7,46 @@ import java.awt.event.MouseListener;
 
 public class GridController implements ActionListener, MouseListener {
 
+	private enum ControllerState {
+		GAME_SETTINGS, GAME_ONGOING, GAME_FINISHED
+	}
+	
 	private GridView view;
 	private GridModel model;
+	private ControllerState state;
 	
 	public GridController(GridView view) {
 		this.view = view;
 		this.model = new GridModel();
+		this.state = ControllerState.GAME_ONGOING;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		CellJButton cell = (CellJButton) e.getSource();
-		if (cell.getState() == State.UNDISCOVERED) {
-			System.out.println(cell.getWidth() + " - " + cell.getHeight());
-			State cellState = view.discoverCell(cell.getRow(), cell.getColumn());
-			if (cellState == State.EMPTY) {
-				view.discoverSurroundingEmptys(cell.getRow(), cell.getColumn());
+		switch (this.state) {
+		case GAME_SETTINGS:
+			break;
+		case GAME_ONGOING:
+			CellJButton cell = (CellJButton) e.getSource();
+			if (cell.getState() == State.UNDISCOVERED) {
+				State cellState = model.discoverCell(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
+				if (cellState == State.EMPTY) {
+					model.discoverSurroundingEmptys(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
+				} else if (cellState == State.MINE) {
+					model.gameOver(view.getCells(), view.getGrid());
+					this.state = ControllerState.GAME_FINISHED;
+				}
 			}
+			break;
+		case GAME_FINISHED:
+			break;
 		}
+		
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3) {
+		if (e.getButton() == MouseEvent.BUTTON3 && this.state == ControllerState.GAME_ONGOING) {
 			CellJButton cell = (CellJButton) e.getSource();
 			if (cell.getState() == State.UNDISCOVERED) {
 				cell.setState(State.FLAG);
