@@ -126,7 +126,7 @@ public class GridView extends JFrame {
 				panelCells.add(cell);
 			}
 		}
-		this.grid = new Grid(rows, columns, 20);
+		this.grid = new Grid(rows, columns, 30);
 		System.out.println(grid);
 	}
 	

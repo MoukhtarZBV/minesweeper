@@ -2,6 +2,7 @@ package minesweeper;
 
 import java.awt.Point;
 import java.util.List;
+import java.util.Random;
 
 import javax.swing.SwingWorker;
 
@@ -50,6 +51,16 @@ public class GridModel {
 		}
 		cell.setState(State.MINE);
 		return State.MINE;
+	}
+	
+	public void changeMinePosition(int x, int y, Grid grid) {
+		int newX, newY;
+		do {
+			newX = new Random().nextInt(grid.getRows());
+			newY = new Random().nextInt(grid.getColumns());
+		} while (grid.getValueAt(newX, newY) == 1);
+		grid.setValueAt(newX, newY, 1);
+		grid.setValueAt(x,  y, 0);
 	}
 	
 	public void discoverSurroundingEmptys(int x, int y, List<CellJButton> cells, Grid grid) {

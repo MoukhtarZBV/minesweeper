@@ -10,7 +10,7 @@ import javax.swing.JButton;
 public class GridController implements ActionListener, MouseListener {
 
 	private enum ControllerState {
-		GAME_SETTINGS, GAME_ONGOING, GAME_FINISHED
+		GAME_SETTINGS, GAME_START, GAME_ONGOING, GAME_FINISHED
 	}
 	
 	private GridView view;
@@ -20,13 +20,33 @@ public class GridController implements ActionListener, MouseListener {
 	public GridController(GridView view) {
 		this.view = view;
 		this.model = new GridModel();
-		this.state = ControllerState.GAME_ONGOING;
+		this.state = ControllerState.GAME_START;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (this.state) {
 		case GAME_SETTINGS:
+			break;
+		case GAME_START:
+			if (e.getSource() instanceof CellJButton) {
+				CellJButton cell = (CellJButton) e.getSource();
+				if (cell.getState() == State.UNDISCOVERED) {
+					State cellState = model.discoverCell(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
+					if (cellState == State.EMPTY) {
+						model.discoverSurroundingEmptys(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
+					} else if (cellState == State.MINE) {
+						model.changeMinePosition(cell.getRow(), cell.getColumn(), view.getGrid());
+						model.discoverSurroundingEmptys(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
+					}
+					this.state = ControllerState.GAME_ONGOING;
+				}
+			} else {
+				JButton button = (JButton) e.getSource();
+				if (button.getName().equals("New Game")) {
+					view.initialiseCells(12, 12, this);
+				}
+			}
 			break;
 		case GAME_ONGOING:
 			if (e.getSource() instanceof CellJButton) {
@@ -44,6 +64,7 @@ public class GridController implements ActionListener, MouseListener {
 				JButton button = (JButton) e.getSource();
 				if (button.getName().equals("New Game")) {
 					view.initialiseCells(12, 12, this);
+					this.state = ControllerState.GAME_START;
 				}
 			}
 			break;
@@ -52,8 +73,8 @@ public class GridController implements ActionListener, MouseListener {
 				JButton button = (JButton) e.getSource();
 				if (button.getName().equals("New Game")) {
 					view.initialiseCells(12, 12, this);
+					this.state = ControllerState.GAME_START;
 				}
-				this.state = ControllerState.GAME_ONGOING;
 			}
 			break;
 		}

@@ -34,7 +34,7 @@ public class Grid {
 		return grid[x][y];
 	}
 	
-	private void setCell(int x, int y, int value) {
+	public void setValueAt(int x, int y, int value) {
 		this.grid[x][y] = value;
 	}
 	
@@ -45,7 +45,7 @@ public class Grid {
 		Collections.shuffle(positionOfBombs);
 		for (int i = 0; i < this.rows; i++) {
 			for (int j = 0; j < this.columns; j++) {
-				this.setCell(i, j, positionOfBombs.get((i*this.columns) + j));
+				this.setValueAt(i, j, positionOfBombs.get((i*this.columns) + j));
 				if (positionOfBombs.get((i*this.columns) + j) == 1) {
 					coordinatesOfMines.add(new Point(i, j));
 				}
