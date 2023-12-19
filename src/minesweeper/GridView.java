@@ -125,6 +125,7 @@ public class GridView extends JFrame {
 		panelButtons = new JPanel();
 		panelButtons.setPreferredSize(new Dimension(360, 36));
 		panelButtons.setBackground(Color.decode("#1B1B1B"));
+		panelButtons.setVisible(false);
 		FlowLayout flowLayout = (FlowLayout) panelButtons.getLayout();
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		panelButtonsContainer.add(panelButtons);
@@ -327,6 +328,8 @@ public class GridView extends JFrame {
 		sliderMinesAmount = new JSlider();
 		sliderMinesAmount.setBackground(Color.decode("#1B1B1B"));
 		sliderMinesAmount.setName("Mines slider");
+		sliderMinesAmount.setMinimum(5);
+		sliderMinesAmount.setValue(20);
 		sliderMinesAmount.addChangeListener(controller);
 		panelMinesAmount.add(sliderMinesAmount, gbc_sliderMinesAmount);
 		
@@ -407,11 +410,16 @@ public class GridView extends JFrame {
 		return this.grid;
 	}
 	
+	public void setActiveNewGame(boolean enabled) {
+		btnNewGame.setEnabled(enabled);
+	}
+	
 	public void startGame() {
 		contentPane.remove(panelSettingsContainer);
 		contentPane.add(panelCellsContainer, BorderLayout.CENTER);
 		contentPane.revalidate();
 		contentPane.repaint();
+		panelButtons.setVisible(true);
 		initialiseCells(getRows(), getColumns(), getMinesAmount());
 	}
 	

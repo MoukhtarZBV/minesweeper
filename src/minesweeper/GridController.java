@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JSlider;
@@ -38,6 +39,7 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 			JButton button = (JButton) e.getSource();
 			if (button.getName().equals("Start game")) {
 				view.startGame();
+				view.setActiveNewGame(false);
 				this.state = ControllerState.GAME_START;
 			}
 			break;
@@ -52,14 +54,10 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 						model.changeMinePosition(cell.getRow(), cell.getColumn(), view.getGrid());
 						model.discoverSurroundingEmptys(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
 					}
+					view.setActiveNewGame(true);
 					this.state = ControllerState.GAME_ONGOING;
 				}
-			} else {
-				JButton button2 = (JButton) e.getSource();
-				if (button2.getName().equals("New Game")) {
-					view.initialiseCells(view.getRows(), view.getColumns(), view.getMinesAmount());
-				}
-			}
+			} 
 			break;
 		case GAME_ONGOING:
 			if (e.getSource() instanceof CellJButton) {
@@ -77,6 +75,7 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 				JButton button3 = (JButton) e.getSource();
 				if (button3.getName().equals("New Game")) {
 					view.initialiseCells(view.getRows(), view.getColumns(), view.getMinesAmount());
+					view.setActiveNewGame(false);
 					this.state = ControllerState.GAME_START;
 				}
 			}
@@ -86,6 +85,7 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 				JButton button4 = (JButton) e.getSource();
 				if (button4.getName().equals("New Game")) {
 					view.initialiseCells(view.getRows(), view.getColumns(), view.getMinesAmount());
+					view.setActiveNewGame(false);
 					this.state = ControllerState.GAME_START;
 				}
 			}
@@ -93,42 +93,7 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 		}
 		
 	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3 && this.state == ControllerState.GAME_ONGOING) {
-			CellJButton cell = (CellJButton) e.getSource();
-			if (cell.getState() == State.UNDISCOVERED) {
-				cell.setState(State.FLAG);
-			} else if (cell.getState() == State.FLAG) {
-				cell.setState(State.UNDISCOVERED);
-			}
-		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() instanceof JSlider) {
@@ -139,6 +104,29 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 			view.setSliderValue(Setting.getSetting(spinner.getName()), (int) spinner.getValue());
 		}
 	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (e.getButton() == MouseEvent.BUTTON3 && this.state == ControllerState.GAME_ONGOING) {
+			CellJButton cell = (CellJButton) e.getSource();
+			if (cell.getState() == State.UNDISCOVERED) {
+				cell.setState(State.FLAG);
+			} else if (cell.getState() == State.FLAG) {
+				cell.setState(State.UNDISCOVERED);
+			}
+		}
+	}
 	
-	
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
+
 }
