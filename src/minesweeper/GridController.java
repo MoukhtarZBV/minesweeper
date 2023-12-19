@@ -1,13 +1,21 @@
 package minesweeper;
 
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class GridController implements ActionListener, MouseListener {
+import minesweeper.GridView.Setting;
+
+public class GridController implements ActionListener, MouseListener, ChangeListener {
 
 	private enum ControllerState {
 		GAME_SETTINGS, GAME_START, GAME_ONGOING, GAME_FINISHED
@@ -20,13 +28,18 @@ public class GridController implements ActionListener, MouseListener {
 	public GridController(GridView view) {
 		this.view = view;
 		this.model = new GridModel();
-		this.state = ControllerState.GAME_START;
+		this.state = ControllerState.GAME_SETTINGS;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (this.state) {
 		case GAME_SETTINGS:
+			JButton button = (JButton) e.getSource();
+			if (button.getName().equals("Start game")) {
+				view.startGame();
+				this.state = ControllerState.GAME_START;
+			}
 			break;
 		case GAME_START:
 			if (e.getSource() instanceof CellJButton) {
@@ -42,9 +55,9 @@ public class GridController implements ActionListener, MouseListener {
 					this.state = ControllerState.GAME_ONGOING;
 				}
 			} else {
-				JButton button = (JButton) e.getSource();
-				if (button.getName().equals("New Game")) {
-					view.initialiseCells(12, 12, this);
+				JButton button2 = (JButton) e.getSource();
+				if (button2.getName().equals("New Game")) {
+					view.initialiseCells(view.getRows(), view.getColumns(), view.getMinesAmount());
 				}
 			}
 			break;
@@ -61,18 +74,18 @@ public class GridController implements ActionListener, MouseListener {
 					}
 				}
 			} else {
-				JButton button = (JButton) e.getSource();
-				if (button.getName().equals("New Game")) {
-					view.initialiseCells(12, 12, this);
+				JButton button3 = (JButton) e.getSource();
+				if (button3.getName().equals("New Game")) {
+					view.initialiseCells(view.getRows(), view.getColumns(), view.getMinesAmount());
 					this.state = ControllerState.GAME_START;
 				}
 			}
 			break;
 		case GAME_FINISHED:
 			if (!(e.getSource() instanceof CellJButton)) {
-				JButton button = (JButton) e.getSource();
-				if (button.getName().equals("New Game")) {
-					view.initialiseCells(12, 12, this);
+				JButton button4 = (JButton) e.getSource();
+				if (button4.getName().equals("New Game")) {
+					view.initialiseCells(view.getRows(), view.getColumns(), view.getMinesAmount());
 					this.state = ControllerState.GAME_START;
 				}
 			}
@@ -114,6 +127,17 @@ public class GridController implements ActionListener, MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		if (e.getSource() instanceof JSlider) {
+			JSlider slider = (JSlider) e.getSource();
+			view.setSpinnerValue(Setting.getSetting(slider.getName()), slider.getValue());
+		} else if (e.getSource() instanceof JSpinner) {
+			JSpinner spinner = (JSpinner) e.getSource();
+			view.setSliderValue(Setting.getSetting(spinner.getName()), (int) spinner.getValue());
+		}
 	}
 	
 	

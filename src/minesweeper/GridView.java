@@ -29,6 +29,25 @@ import java.awt.GridBagConstraints;
 import javax.swing.SpinnerNumberModel;
 
 public class GridView extends JFrame {
+	
+	public enum Setting{
+		ROW_SPINNER("Rows spinner"), COLUMN_SPINNER("Columns spinner"), MINE_SPINNER("Mines spinner"), ROW_SLIDER("Rows slider"), COLUMN_SLIDER("Columns slider"), MINE_SLIDER("Mines slider");
+	
+		private String name;
+		
+		private Setting(String name) {
+			this.name = name;
+		}
+		
+		public static Setting getSetting(String name) {
+			for (Setting setting : Setting.values()) {
+				if (setting.name.equals(name)) {
+					return setting;
+				}
+			}
+			return null;
+		}
+	}
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -40,6 +59,8 @@ public class GridView extends JFrame {
 	private List<CellJButton> cells;
 	
 	private Grid grid;
+	
+	private GridController controller;
 
 	public static final int CELL_SIZE = 30;
 	private JPanel panelButtons;
@@ -60,6 +81,8 @@ public class GridView extends JFrame {
 	private JLabel lblMinesAmount;
 	private JSlider sliderMinesAmount;
 	private JSpinner spinnerMinesAmount;
+	private JPanel panelStartButton;
+	private JButton btnStartGame;
 	
 	/**
 	 * Launch the application.
@@ -81,7 +104,7 @@ public class GridView extends JFrame {
 	 * Create the frame.
 	 */
 	public GridView() {
-		GridController controller = new GridController(this);
+		controller = new GridController(this);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 500);
@@ -133,9 +156,9 @@ public class GridView extends JFrame {
 		// [Settings panel]
 		GridBagLayout gbl_panelSettings = new GridBagLayout();
 		gbl_panelSettings.columnWidths = new int[]{360, 0};
-		gbl_panelSettings.rowHeights = new int[] {13, 20, 22, 0, 0};
+		gbl_panelSettings.rowHeights = new int[] {13, 20, 22, 0, 0, 0};
 		gbl_panelSettings.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gbl_panelSettings.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_panelSettings.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		panelSettings = new JPanel();
 		panelSettings.setBackground(Color.decode("#1B1B1B"));
 		panelSettings.setLayout(gbl_panelSettings);
@@ -192,8 +215,11 @@ public class GridView extends JFrame {
 		sliderRows = new JSlider();
 		sliderRows.setForeground(new Color(255, 255, 255));
 		sliderRows.setMinimum(5);
-		sliderRows.setMaximum(30);
+		sliderRows.setMaximum(25);
+		sliderRows.setValue(10);
 		sliderRows.setBackground(Color.decode("#1B1B1B"));
+		sliderRows.setName("Rows slider");
+		sliderRows.addChangeListener(controller);
 		panelRows.add(sliderRows, gbc_sliderRows);
 		
 		// [Rows spinner]
@@ -202,7 +228,9 @@ public class GridView extends JFrame {
 		gbc_spinnerRows.gridx = 2;
 		gbc_spinnerRows.gridy = 0;
 		spinnerRows = new JSpinner();
-		spinnerRows.setModel(new SpinnerNumberModel(5, 5, 30, 1));
+		spinnerRows.setModel(new SpinnerNumberModel(10, 5, 30, 1));
+		spinnerRows.setName("Rows spinner");
+		spinnerRows.addChangeListener(controller);
 		panelRows.add(spinnerRows, gbc_spinnerRows);
 		
 		// ============================== //
@@ -242,9 +270,12 @@ public class GridView extends JFrame {
 		gbc_sliderColumns.gridx = 1;
 		gbc_sliderColumns.gridy = 0;
 		sliderColumns = new JSlider();
-		sliderColumns.setMaximum(30);
+		sliderColumns.setMaximum(25);
 		sliderColumns.setMinimum(5);
+		sliderColumns.setValue(10);
 		sliderColumns.setBackground(Color.decode("#1B1B1B"));
+		sliderColumns.setName("Columns slider");
+		sliderColumns.addChangeListener(controller);
 		panelColumns.add(sliderColumns, gbc_sliderColumns);
 		
 		// [Columns spinner]
@@ -253,12 +284,15 @@ public class GridView extends JFrame {
 		gbc_spinnerColumns.gridx = 2;
 		gbc_spinnerColumns.gridy = 0;
 		spinnerColumns = new JSpinner();
-		spinnerColumns.setModel(new SpinnerNumberModel(5, 5, 30, 1));
+		spinnerColumns.setModel(new SpinnerNumberModel(10, 5, 30, 1));
+		spinnerColumns.setName("Columns spinner");
+		spinnerColumns.addChangeListener(controller);
 		panelColumns.add(spinnerColumns, gbc_spinnerColumns);
 		
 		// ============================== //
 		// [Mines amount panel]
 		GridBagConstraints gbc_panelMinesAmount = new GridBagConstraints();
+		gbc_panelMinesAmount.insets = new Insets(0, 0, 5, 0);
 		gbc_panelMinesAmount.fill = GridBagConstraints.BOTH;
 		gbc_panelMinesAmount.gridx = 0;
 		gbc_panelMinesAmount.gridy = 3;
@@ -292,6 +326,8 @@ public class GridView extends JFrame {
 		gbc_sliderMinesAmount.gridy = 0;
 		sliderMinesAmount = new JSlider();
 		sliderMinesAmount.setBackground(Color.decode("#1B1B1B"));
+		sliderMinesAmount.setName("Mines slider");
+		sliderMinesAmount.addChangeListener(controller);
 		panelMinesAmount.add(sliderMinesAmount, gbc_sliderMinesAmount);
 		
 		// [Mines amount spinner]
@@ -300,23 +336,46 @@ public class GridView extends JFrame {
 		gbc_spinnerMinesAmount.gridx = 2;
 		gbc_spinnerMinesAmount.gridy = 0;
 		spinnerMinesAmount = new JSpinner();
+		spinnerMinesAmount.setName("Mines spinner");
+		spinnerMinesAmount.addChangeListener(controller);
 		panelMinesAmount.add(spinnerMinesAmount, gbc_spinnerMinesAmount);
+		
+		setMaxMinesAmount();
+		
+		// ============================== //
+		// [Start button panel]
+		GridBagConstraints gbc_panelStartButton = new GridBagConstraints();
+		gbc_panelStartButton.fill = GridBagConstraints.BOTH;
+		gbc_panelStartButton.gridx = 0;
+		gbc_panelStartButton.gridy = 4;
+		panelStartButton = new JPanel();
+		panelStartButton.setBackground(Color.decode("#1B1B1B"));
+		panelSettings.add(panelStartButton, gbc_panelStartButton);
+		
+		FlowLayout fl_panelStartButton = (FlowLayout) panelStartButton.getLayout();
+		fl_panelStartButton.setAlignment(FlowLayout.RIGHT);
+		
+		// [Start button]
+		btnStartGame = new JButton("<html><body style='padding: 5px 10px;'>Start game</body></html>");
+		btnStartGame.setName("Start game");
+		btnStartGame.setForeground(Color.decode("#C4C38A"));
+		btnStartGame.setBackground(Color.decode("#1B1B1B"));
+		btnStartGame.setBorder(new LineBorder(new Color(85, 53, 85)));
+		btnStartGame.addActionListener(controller);
+		panelStartButton.add(btnStartGame);
 		
 		// ============================== //
 		// [Cells panel]
-		/*
 		panelCellsContainer = new JPanel();
 		panelCellsContainer.setMaximumSize(new Dimension(15, 15));
 		panelCellsContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		panelCellsContainer.setBackground(Color.decode("#1B1B1B"));
-		contentPane.add(panelCellsContainer, BorderLayout.CENTER);
 		
 		panelCells = new JPanel();
 		panelCellsContainer.add(panelCells);
-		initialiseCells(12, 12, controller);*/
 	}
 	
-	public void initialiseCells(int rows, int columns, GridController controller) {
+	public void initialiseCells(int rows, int columns, int minesAmount) {
 		panelCellsContainer.remove(panelCells);
 		panelCellsContainer.revalidate();
 		panelCellsContainer.repaint();
@@ -336,7 +395,7 @@ public class GridView extends JFrame {
 				panelCells.add(cell);
 			}
 		}
-		this.grid = new Grid(rows, columns, 30);
+		this.grid = new Grid(rows, columns, minesAmount);
 		System.out.println(grid);
 	}
 	
@@ -346,5 +405,63 @@ public class GridView extends JFrame {
 	
 	public Grid getGrid() {
 		return this.grid;
+	}
+	
+	public void startGame() {
+		contentPane.remove(panelSettingsContainer);
+		contentPane.add(panelCellsContainer, BorderLayout.CENTER);
+		contentPane.revalidate();
+		contentPane.repaint();
+		initialiseCells(getRows(), getColumns(), getMinesAmount());
+	}
+	
+	public int getRows() {
+		return sliderRows.getValue();
+	}
+	
+	public int getColumns() {
+		return sliderColumns.getValue();
+	}
+	
+	public int getMinesAmount() {
+		return sliderMinesAmount.getValue();
+	}
+	
+	public void setSpinnerValue(Setting slider, int value) {
+		switch (slider) {
+			case ROW_SLIDER:
+				spinnerRows.setValue(value);
+				break;
+			case COLUMN_SLIDER:
+				spinnerColumns.setValue(value);
+				break;
+			case MINE_SLIDER:
+				spinnerMinesAmount.setValue(value);
+				break;
+			default:
+		}
+		setMaxMinesAmount();
+	}
+	
+	public void setSliderValue(Setting spinner, int value) {
+		switch (spinner) {
+			case ROW_SPINNER:
+				sliderRows.setValue(value);
+				break;
+			case COLUMN_SPINNER:
+				sliderColumns.setValue(value);
+				break;
+			case MINE_SPINNER:
+				sliderMinesAmount.setValue(value);
+				break;
+			default:
+		}
+		setMaxMinesAmount();
+	}
+	
+	public void setMaxMinesAmount() {
+		int maxAmount = (int) (sliderRows.getValue() * sliderColumns.getValue() * 0.5f);
+		spinnerMinesAmount.setModel(new SpinnerNumberModel(Math.min(sliderMinesAmount.getValue(), maxAmount), 5, maxAmount, 1));
+		sliderMinesAmount.setMaximum(maxAmount);
 	}
 }

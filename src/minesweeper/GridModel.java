@@ -9,7 +9,7 @@ import javax.swing.SwingWorker;
 public class GridModel {
 
 	public void gameOver(List<CellJButton> cells, Grid grid) {
-		SwingWorker<Void, Point> worker = new SwingWorker<>() {
+		SwingWorker<Void, Point> worker = new SwingWorker<Void, Point>() {
             @Override
             protected Void doInBackground() {
                 for (Point point : grid.getCoordinatesOfMines()) {
