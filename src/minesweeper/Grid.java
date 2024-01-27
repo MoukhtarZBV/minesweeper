@@ -30,6 +30,10 @@ public class Grid {
 		return this.columns;
 	}
 	
+	public int getNumberOfMines() {
+		return numberOfMines;
+	}
+	
 	public int getValueAt(int x, int y) {
 		return grid[x][y];
 	}

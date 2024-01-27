@@ -85,6 +85,8 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 					} else if (cellState == State.MINE) {
 						model.gameOver(view.getCells(), view.getGrid());
 						this.state = ControllerState.GAME_FINISHED;
+					} else if (cellState == State.LAST) {
+						
 					}
 				}
 			} else if (e.getSource() instanceof JButton) {
@@ -131,7 +133,9 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3 && this.state == ControllerState.GAME_ONGOING) {
+		if (e.getButton() == MouseEvent.BUTTON3 
+			&& this.state == ControllerState.GAME_ONGOING
+			&& e.getSource() instanceof CellJButton) {
 			CellJButton cell = (CellJButton) e.getSource();
 			if (cell.getState() == State.UNDISCOVERED) {
 				cell.setState(State.FLAG);

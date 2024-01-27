@@ -9,7 +9,7 @@ public class Screen {
 
 public static int posX, posY;
 	
-	public static final int tailleX = 1280;
+	public static final int tailleX = 1080;
 	public static final int tailleY = 720;
 	
 	public static JFrame lastFrame;

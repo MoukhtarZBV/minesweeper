@@ -77,7 +77,7 @@ public class GridView extends JFrame {
 	private JPanel panelSettingsContainer;
 	private JPanel panelSettings;
 	private JPanel panelColumns;
-	private JPanel panelStartButton;
+	private JPanel panelSettingsButtons;
 	private JPanel panelMinesAmount;
 	
 	private JButton btnNewGame;
@@ -125,7 +125,7 @@ public class GridView extends JFrame {
 		setContentPane(contentPane);
 		
 		Header header = new Header(this);
-		header.setTitre("Accueil");
+		header.setTitle("Minesweeper");
 		contentPane.add(header, BorderLayout.NORTH);
 		
 		mainPanel = new JPanel();
@@ -217,7 +217,7 @@ public class GridView extends JFrame {
 		// ============================== //
 		// [Rows panel]
 		panelRows = new JPanel();
-		panelRows.setBorder(new EmptyBorder(10, 0, 0, 0));
+		panelRows.setBorder(new EmptyBorder(15, 0, 0, 0));
 		panelRows.setBackground(CustomColor.DARK_GRAY);
 		panelRows.setLayout(gbl_panel);
 		panelSettings.add(panelRows, gbc_panel);
@@ -281,14 +281,15 @@ public class GridView extends JFrame {
 		// ============================== //
 		// [Start button panel]
 		gbc_panel.gridy = 4;
-		panelStartButton = new JPanel();
-		panelStartButton.setBackground(CustomColor.DARK_GRAY);
-		panelSettings.add(panelStartButton, gbc_panel);
-		((FlowLayout) panelStartButton.getLayout()).setAlignment(FlowLayout.RIGHT);
+		panelSettingsButtons = new JPanel();
+		panelSettingsButtons.setBorder(new EmptyBorder(15, 0, 0, 0));
+		panelSettingsButtons.setBackground(CustomColor.DARK_GRAY);
+		panelSettings.add(panelSettingsButtons, gbc_panel);
+		((FlowLayout) panelSettingsButtons.getLayout()).setAlignment(FlowLayout.RIGHT);
 		
 		// [Start button]
 		btnStartGame = CustomComponent.createButton("Start new game", controller);
-		panelStartButton.add(btnStartGame);
+		panelSettingsButtons.add(btnStartGame);
 		
 		// ============================== //
 		// [Cells panel]
@@ -322,6 +323,9 @@ public class GridView extends JFrame {
 			}
 		}
 		this.grid = new Grid(rows, columns, minesAmount);
+		panelButtons.setPreferredSize(new Dimension(Math.max(160, columns * 30), 36));
+		panelButtons.revalidate();
+		panelButtons.repaint();
 	}
 	
 	public List<CellJButton> getCells(){
@@ -362,7 +366,7 @@ public class GridView extends JFrame {
 	
 	public void addCloseButton() {
 		JButton btnCloseSettings = CustomComponent.createButton("Close settings", controller);
-		panelStartButton.add(btnCloseSettings);
+		panelSettingsButtons.add(btnCloseSettings);
 	}
 	
 	public int getRows() {

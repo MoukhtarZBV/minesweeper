@@ -9,6 +9,12 @@ import javax.swing.SwingWorker;
 import components.CellJButton;
 
 public class GridModel {
+	
+	private int numberOfCellsDiscovered;
+	
+	public GridModel() {
+		this.numberOfCellsDiscovered = 0;
+	}
 
 	public void gameOver(List<CellJButton> cells, Grid grid) {
 		SwingWorker<Void, Point> worker = new SwingWorker<Void, Point>() {
@@ -35,6 +41,10 @@ public class GridModel {
         worker.execute();
 	}
 	
+	public void gameWon() {
+		
+	}
+	
 	public CellJButton getCellAt(int x, int y, List<CellJButton> cells) {
 		for (CellJButton cell : cells) {
 			if (cell.getRow() == x && cell.getColumn() == y) {
@@ -49,6 +59,10 @@ public class GridModel {
 		if (grid.getValueAt(x, y) == 0) {
 			State state = State.getState(grid.numberOfAdjacentMines(x, y));
 			cell.setState(state);
+			numberOfCellsDiscovered++;
+			if (numberOfCellsDiscovered == grid.getColumns() * grid.getRows() - grid.getNumberOfMines()) {
+				return State.LAST;
+			}
 			return state;
 		}
 		cell.setState(State.MINE);
