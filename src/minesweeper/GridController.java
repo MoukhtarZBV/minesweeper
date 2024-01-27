@@ -1,5 +1,6 @@
 package minesweeper;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 
 import java.awt.event.ActionListener;
@@ -14,6 +15,8 @@ import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import components.CellJButton;
+import ihm.CustomColor;
 import minesweeper.GridView.Setting;
 
 public class GridController implements ActionListener, MouseListener, ChangeListener {
@@ -25,6 +28,7 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 	private GridView view;
 	private GridModel model;
 	private ControllerState state;
+	private ControllerState leftState;
 	
 	public GridController(GridView view) {
 		this.view = view;
@@ -36,11 +40,16 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 	public void actionPerformed(ActionEvent e) {
 		switch (this.state) {
 		case GAME_SETTINGS:
-			JButton button = (JButton) e.getSource();
-			if (button.getName().equals("Start game")) {
-				view.startGame();
-				view.setActiveNewGame(false);
-				this.state = ControllerState.GAME_START;
+			if (e.getSource() instanceof JButton) {
+				JButton button = (JButton) e.getSource();
+				if (button.getText().equals("Start new game")) {
+					view.startGame();
+					view.setActiveNewGame(false);
+					this.state = ControllerState.GAME_START;
+				} else if (button.getText().equals("Close settings") || button.getText().equals("Settings")) {
+					view.closeSettings();
+					this.state = this.leftState;
+				}
 			}
 			break;
 		case GAME_START:
@@ -57,7 +66,14 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 					view.setActiveNewGame(true);
 					this.state = ControllerState.GAME_ONGOING;
 				}
-			} 
+			} else if (e.getSource() instanceof JButton) {
+				JButton button2 = (JButton) e.getSource();
+				if (button2.getText().equals("Settings")) {
+					view.openSettings();
+					this.leftState = this.state;
+					this.state = ControllerState.GAME_SETTINGS;
+				}
+			}
 			break;
 		case GAME_ONGOING:
 			if (e.getSource() instanceof CellJButton) {
@@ -71,22 +87,30 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 						this.state = ControllerState.GAME_FINISHED;
 					}
 				}
-			} else {
+			} else if (e.getSource() instanceof JButton) {
 				JButton button3 = (JButton) e.getSource();
-				if (button3.getName().equals("New Game")) {
+				if (button3.getText().equals("New game")) {
 					view.initialiseCells(view.getRows(), view.getColumns(), view.getMinesAmount());
 					view.setActiveNewGame(false);
 					this.state = ControllerState.GAME_START;
+				} else if (button3.getText().equals("Settings")) {
+					view.openSettings();
+					this.leftState = this.state;
+					this.state = ControllerState.GAME_SETTINGS;
 				}
 			}
 			break;
 		case GAME_FINISHED:
-			if (!(e.getSource() instanceof CellJButton)) {
+			if (e.getSource() instanceof JButton) {
 				JButton button4 = (JButton) e.getSource();
-				if (button4.getName().equals("New Game")) {
+				if (button4.getText().equals("New game")) {
 					view.initialiseCells(view.getRows(), view.getColumns(), view.getMinesAmount());
 					view.setActiveNewGame(false);
 					this.state = ControllerState.GAME_START;
+				} else if (button4.getText().equals("Settings")) {
+					view.openSettings();
+					this.leftState = this.state;
+					this.state = ControllerState.GAME_SETTINGS;
 				}
 			}
 			break;
@@ -118,15 +142,33 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 	}
 	
 	@Override
+	public void mouseEntered(MouseEvent e) {
+		if (!(e.getSource() instanceof CellJButton)) {
+			JButton button = (JButton) e.getSource();
+			button.setBackground(CustomColor.LIGHT_GRAY);
+			button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		}
+	}
+	
+	@Override
+	public void mouseExited(MouseEvent e) {
+		if (!(e.getSource() instanceof CellJButton)) {
+			JButton button = (JButton) e.getSource();
+			button.setBackground(CustomColor.DARKER_GRAY);
+			button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		}
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		if (!(e.getSource() instanceof CellJButton)) {
+			JButton button = (JButton) e.getSource();
+			button.setBackground(CustomColor.DARKER_GRAY);
+			button.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		}
+	}
+	
+	@Override
 	public void mouseClicked(MouseEvent e) {}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-
-	@Override
-	public void mouseExited(MouseEvent e) {}
 
 }

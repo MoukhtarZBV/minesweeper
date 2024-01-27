@@ -1,9 +1,12 @@
-package minesweeper;
+package ihm;
 
 import java.awt.Image;
 
 
 import javax.swing.ImageIcon;
+
+import components.CellJButton;
+import minesweeper.GridView;
 
 public class Icon {
 	

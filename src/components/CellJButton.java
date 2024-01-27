@@ -1,4 +1,4 @@
-package minesweeper;
+package components;
 
 import java.awt.Color;
 import java.awt.Image;
@@ -6,6 +6,9 @@ import java.awt.Image;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+
+import ihm.Icon;
+import minesweeper.State;
 
 public class CellJButton extends JButton {
 

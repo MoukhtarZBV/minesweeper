@@ -6,6 +6,8 @@ import java.util.Random;
 
 import javax.swing.SwingWorker;
 
+import components.CellJButton;
+
 public class GridModel {
 
 	public void gameOver(List<CellJButton> cells, Grid grid) {
