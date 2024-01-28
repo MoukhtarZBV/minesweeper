@@ -9,6 +9,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Insets;
@@ -17,13 +18,16 @@ import java.util.List;
 
 import javax.swing.JButton;
 import java.awt.FlowLayout;
+import java.awt.Font;
+
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.border.MatteBorder;
 
 import components.CellJButton;
 import components.CustomComponent;
-import components.CustomJSliderUI;
 import components.Header;
+import components.ShadowJLabel;
 import ihm.CustomColor;
 import ihm.Screen;
 
@@ -33,6 +37,7 @@ import javax.swing.JSpinner;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 
 public class GridView extends JFrame {
 	
@@ -270,11 +275,11 @@ public class GridView extends JFrame {
 		panelMinesAmount.add(lblMinesAmount, gbc_label);
 		
 		// [Mines amount slider]
-		sliderMinesAmount = CustomComponent.createJSlider("Mines slider", 5, 30, 10, controller);
+		sliderMinesAmount = CustomComponent.createJSlider("Mines slider", 2, 30, 10, controller);
 		panelMinesAmount.add(sliderMinesAmount, gbc_slider);
 		
 		// [Mines amount spinner]
-		spinnerMinesAmount = CustomComponent.createJSpinner("Mines spinner", 5, 30, 10, controller);
+		spinnerMinesAmount = CustomComponent.createJSpinner("Mines spinner", 2, 30, 10, controller);
 		panelMinesAmount.add(spinnerMinesAmount, gbc_spinner);
 		setMaxMinesAmount();
 		
@@ -297,13 +302,12 @@ public class GridView extends JFrame {
 		panelCellsContainer.setMaximumSize(new Dimension(15, 15));
 		panelCellsContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		panelCellsContainer.setBackground(CustomColor.DARK_GRAY);
-		
-		panelCells = new JPanel();
-		panelCellsContainer.add(panelCells);
 	}
 	
 	public void initialiseCells(int rows, int columns, int minesAmount) {
-		panelCellsContainer.remove(panelCells);
+		for (Component comp : panelCellsContainer.getComponents()) {
+			panelCellsContainer.remove(comp);
+		}
 		panelCellsContainer.revalidate();
 		panelCellsContainer.repaint();
 		panelCells = new JPanel();
@@ -364,6 +368,39 @@ public class GridView extends JFrame {
 		mainPanel.repaint();
 	}
 	
+	public void gameDone(String text) {
+		JLayeredPane panelLayered = new JLayeredPane();
+		panelLayered.setPreferredSize(panelCells.getPreferredSize());
+
+		panelLayered.add(panelCells, JLayeredPane.DEFAULT_LAYER);
+		panelCells.setBounds(0, 0, panelCells.getPreferredSize().width, panelCells.getPreferredSize().height);
+
+		JPanel labelHolder = new JPanel();
+		labelHolder.setOpaque(false);
+		labelHolder.setLayout(null);
+		
+		ShadowJLabel label = new ShadowJLabel(text);
+		label.setFont(new Font("Arial", Font.BOLD, 24));
+		label.setForeground(CustomColor.YELLOW);
+		label.setShadowSize(10);
+		label.setBorder(new EmptyBorder(60, 60, 60, 60));
+		
+		int labelWidth = label.getPreferredSize().width;
+		int labelHeight = label.getPreferredSize().height;
+		int centerX = (panelCells.getWidth() - labelWidth) / 2;
+		int centerY = (panelCells.getHeight() - labelHeight) / 2;
+		
+		label.setBounds(centerX, centerY, labelWidth, labelHeight);
+		labelHolder.add(label);
+
+		panelLayered.add(labelHolder, JLayeredPane.PALETTE_LAYER);
+		labelHolder.setBounds(0, 0, panelCells.getPreferredSize().width, panelCells.getPreferredSize().height);
+
+		panelCellsContainer.add(panelLayered);
+		panelCellsContainer.revalidate();
+		panelCellsContainer.repaint();
+	}
+	
 	public void addCloseButton() {
 		JButton btnCloseSettings = CustomComponent.createButton("Close settings", controller);
 		panelSettingsButtons.add(btnCloseSettings);
@@ -415,7 +452,7 @@ public class GridView extends JFrame {
 	
 	public void setMaxMinesAmount() {
 		int maxAmount = (int) (sliderRows.getValue() * sliderColumns.getValue() * 0.5f);
-		spinnerMinesAmount.setModel(new SpinnerNumberModel(Math.min(sliderMinesAmount.getValue(), maxAmount), 5, maxAmount, 1));
+		spinnerMinesAmount.setModel(new SpinnerNumberModel(Math.min(sliderMinesAmount.getValue(), maxAmount), 2, maxAmount, 1));
 		JTextField spinnerField = (JTextField) spinnerMinesAmount.getEditor().getComponent(0);
 		spinnerField.setBackground(CustomColor.DARK_GRAY);
 		spinnerField.setForeground(CustomColor.YELLOW);

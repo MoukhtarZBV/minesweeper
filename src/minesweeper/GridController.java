@@ -45,6 +45,7 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 				if (button.getText().equals("Start new game")) {
 					view.startGame();
 					view.setActiveNewGame(false);
+					model.resetNumberOfCellsDiscovered();
 					this.state = ControllerState.GAME_START;
 				} else if (button.getText().equals("Close settings") || button.getText().equals("Settings")) {
 					view.closeSettings();
@@ -58,6 +59,7 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 				if (cell.getState() == State.UNDISCOVERED) {
 					State cellState = model.discoverCell(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
 					if (cellState == State.EMPTY) {
+						model.removeOneNumberOfCellsDiscovered();
 						model.discoverSurroundingEmptys(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
 					} else if (cellState == State.MINE) {
 						model.changeMinePosition(cell.getRow(), cell.getColumn(), view.getGrid());
@@ -81,12 +83,15 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 				if (cell.getState() == State.UNDISCOVERED) {
 					State cellState = model.discoverCell(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
 					if (cellState == State.EMPTY) {
+						model.removeOneNumberOfCellsDiscovered();
 						model.discoverSurroundingEmptys(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
 					} else if (cellState == State.MINE) {
 						model.gameOver(view.getCells(), view.getGrid());
+						view.gameDone("GAME OVER !");
 						this.state = ControllerState.GAME_FINISHED;
 					} else if (cellState == State.LAST) {
-						
+						view.gameDone("YOU WIN !");
+						this.state = ControllerState.GAME_FINISHED;
 					}
 				}
 			} else if (e.getSource() instanceof JButton) {
@@ -94,6 +99,7 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 				if (button3.getText().equals("New game")) {
 					view.initialiseCells(view.getRows(), view.getColumns(), view.getMinesAmount());
 					view.setActiveNewGame(false);
+					model.resetNumberOfCellsDiscovered();
 					this.state = ControllerState.GAME_START;
 				} else if (button3.getText().equals("Settings")) {
 					view.openSettings();
@@ -108,6 +114,7 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 				if (button4.getText().equals("New game")) {
 					view.initialiseCells(view.getRows(), view.getColumns(), view.getMinesAmount());
 					view.setActiveNewGame(false);
+					model.resetNumberOfCellsDiscovered();
 					this.state = ControllerState.GAME_START;
 				} else if (button4.getText().equals("Settings")) {
 					view.openSettings();

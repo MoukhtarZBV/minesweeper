@@ -41,8 +41,12 @@ public class GridModel {
         worker.execute();
 	}
 	
-	public void gameWon() {
-		
+	public void resetNumberOfCellsDiscovered() {
+		this.numberOfCellsDiscovered = 0;
+	}
+	
+	public void removeOneNumberOfCellsDiscovered() {
+		this.numberOfCellsDiscovered--;
 	}
 	
 	public CellJButton getCellAt(int x, int y, List<CellJButton> cells) {
