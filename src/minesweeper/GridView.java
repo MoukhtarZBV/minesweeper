@@ -150,6 +150,7 @@ public class GridView extends JFrame {
 		mainPanel = new JPanel();
 		mainPanel.setBackground(CustomColor.DARK_GRAY);
 		mainPanel.setLayout(new BorderLayout());
+		mainPanel.setBorder(new EmptyBorder(40, 0, 0, 0));
 		contentPane.add(mainPanel, BorderLayout.CENTER);
 		
 		// ============================== //

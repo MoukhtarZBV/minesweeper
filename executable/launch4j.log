@@ -1,0 +1,93 @@
+
+
+Version:	3.50
+CmdLine:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\Minesweeper.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+Substitute:	JAVA_HOME = 
+Substitute:	PATH = C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\dotnet\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Users\moukh\AppData\Local\Microsoft\WindowsApps;C:\Users\moukh\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\moukh\.dotnet\tools;C:\Users\moukh\AppData\Local\GitHubDesktop\bin;C:\Program Files (x86)\Java\jre-1.8\bin
+JRE paths:	;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\dotnet\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Users\moukh\AppData\Local\Microsoft\WindowsApps;C:\Users\moukh\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\moukh\.dotnet\tools;C:\Users\moukh\AppData\Local\GitHubDesktop\bin;C:\Program Files (x86)\Java\jre-1.8\bin
+Check launcher:	C:\Program Files (x86)\Common Files\Oracle\Java\javapath\bin\javaw.exe (not found)
+Check launcher:	C:\windows\system32\bin\javaw.exe (not found)
+Check launcher:	C:\windows\bin\javaw.exe (not found)
+Check launcher:	C:\windows\System32\Wbem\bin\javaw.exe (not found)
+Check launcher:	C:\windows\System32\WindowsPowerShell\v1.0\bin\javaw.exe (not found)
+Check launcher:	C:\windows\System32\OpenSSH\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\dotnet\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\system32\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\System32\Wbem\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\System32\WindowsPowerShell\v1.0\bin\javaw.exe (not found)
+Check launcher:	C:\WINDOWS\System32\OpenSSH\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files\Git\cmd\bin\javaw.exe (not found)
+Check launcher:	C:\Users\moukh\AppData\Local\Microsoft\WindowsApps\bin\javaw.exe (not found)
+Check launcher:	C:\Users\moukh\AppData\Local\Programs\Microsoft VS Code\bin\javaw.exe (not found)
+Check launcher:	C:\Users\moukh\.dotnet\tools\bin\javaw.exe (not found)
+Check launcher:	C:\Users\moukh\AppData\Local\GitHubDesktop\bin\javaw.exe (not found)
+Check launcher:	C:\Program Files (x86)\Java\jre-1.8\bin\javaw.exe (OK)
+Version string: 1.008.000_401 / 32-Bit (OK)
+Launcher:	C:\Program Files (x86)\Java\jre-1.8\bin\javaw.exe
+Launcher args:	-jar "C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\Minesweeper.exe"
+Args length:	83/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\Minesweeper.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+JRE paths:	jre
+Check launcher:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\jre\bin\javaw.exe (OK)
+Version string: 1.008.000_401 / 32-Bit (OK)
+Launcher:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\jre\bin\javaw.exe
+Launcher args:	-jar "C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\Minesweeper.exe"
+Args length:	83/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\Minesweeper.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+JRE paths:	jre
+Check launcher:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\jre\bin\javaw.exe (OK)
+Version string: 1.008.000_401 / 32-Bit (OK)
+Launcher:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\jre\bin\javaw.exe
+Launcher args:	-jar "C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\Minesweeper.exe"
+Args length:	83/32768 chars
+Exit code:	0
+
+
+Version:	3.50
+CmdLine:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\Minesweeper.exe --l4j-debug
+JNI:		No
+WOW64:		Yes
+Working dir:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\.
+Requires JDK:	No
+Requires 64-Bit: No
+Java min ver:	
+Java max ver:	
+JRE paths:	jre
+Check launcher:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\jre\bin\javaw.exe (OK)
+Version string: 1.008.000_401 / 32-Bit (OK)
+Launcher:	C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\jre\bin\javaw.exe
+Launcher args:	-jar "C:\Users\moukh\Documents\Projets Git\minesweeper\Minesweeper\Minesweeper.exe"
+Args length:	83/32768 chars
+Exit code:	0
