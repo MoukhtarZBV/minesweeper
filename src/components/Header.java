@@ -120,6 +120,7 @@ public class Header extends JPanel {
 					parent.setBounds(Screen.posX, Screen.posY, Screen.tailleX, Screen.tailleY);
 					fullScreen = false;
 				} else {
+					Screen.update(parent);
 					parent.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					fullScreen = true;
 				}
