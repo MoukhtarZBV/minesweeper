@@ -14,11 +14,14 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -29,6 +32,8 @@ import components.CustomComponent;
 import components.Header;
 import components.ShadowJLabel;
 import ihm.CustomColor;
+import ihm.CustomFont;
+import ihm.Icon;
 import ihm.Screen;
 
 import javax.swing.JSlider;
@@ -38,6 +43,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 public class GridView extends JFrame {
 	
@@ -68,7 +74,13 @@ public class GridView extends JFrame {
 	
 	private GridController controller;
 	
+	public Timer timer;
+	
+	private long startTime;
+	private long elapsedSettingsTime;
+	
 	private boolean firstGame;
+	private boolean gameDone;
 
 	public static final int CELL_SIZE = 30;
 	
@@ -89,6 +101,7 @@ public class GridView extends JFrame {
 	private JButton btnSettings;
 	private JButton btnStartGame;
 	
+	private JLabel lblTimer;
 	private JLabel lblSettings;
 	private JLabel lblRows;
 	private JLabel lblColumns;
@@ -117,6 +130,7 @@ public class GridView extends JFrame {
 	public GridView() {
 		controller = new GridController(this);
 		firstGame = true;
+		gameDone = false;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Screen.setup();
@@ -145,6 +159,25 @@ public class GridView extends JFrame {
 		mainPanel.add(panelButtonsContainer, BorderLayout.NORTH);
 		
 		// [Buttons panel]
+		lblTimer = new JLabel();
+		lblTimer.setFont(CustomFont.TIMER);
+		lblTimer.setForeground(CustomColor.YELLOW);
+		lblTimer.setPreferredSize(new Dimension(100, 36));
+		lblTimer.setIconTextGap(10);
+		startTime = System.currentTimeMillis();
+		timer = new Timer(500, new ActionListener(){
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		    	long elapsedTime = System.currentTimeMillis() - startTime;
+				long elapsedSeconds = elapsedTime / 1000;
+				long secondsDisplay = elapsedSeconds % 60;
+				long elapsedMinutes = elapsedSeconds / 60;
+		        lblTimer.setText(String.format("%02d", elapsedMinutes) + ":" + String.format("%02d", secondsDisplay));
+		    }
+		});
+		panelButtonsContainer.add(lblTimer);
+		
+		// [Buttons panel]
 		panelButtons = new JPanel();
 		panelButtons.setPreferredSize(new Dimension(360, 36));
 		panelButtons.setBackground(CustomColor.DARK_GRAY);
@@ -161,7 +194,6 @@ public class GridView extends JFrame {
 		panelButtons.add(btnNewGame);
 		
 		panelSettingsContainer = new JPanel();
-		panelSettingsContainer.setMaximumSize(new Dimension(15, 15));
 		panelSettingsContainer.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		panelSettingsContainer.setBackground(CustomColor.DARK_GRAY);
 		mainPanel.add(panelSettingsContainer, BorderLayout.CENTER);
@@ -185,7 +217,7 @@ public class GridView extends JFrame {
 		gbc_panel.gridy = 1;
 		
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] {90, 250, 60, 0};
+		gbl_panel.columnWidths = new int[] {110, 250, 70, 0};
 		gbl_panel.rowHeights = new int[]{22, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
@@ -215,7 +247,8 @@ public class GridView extends JFrame {
 		gbc_lblSettings.gridx = 0;
 		gbc_lblSettings.gridy = 0;
 		lblSettings = new JLabel("Settings");
-		lblSettings.setBorder(new CompoundBorder(new MatteBorder(0, 0, 1, 0, new Color(85, 53, 85)), new EmptyBorder(0, 0, 5, 0)));
+		lblSettings.setBorder(new CompoundBorder(new MatteBorder(0, 0, 1, 0, CustomColor.PURPLE), new EmptyBorder(0, 0, 5, 0)));
+		lblSettings.setFont(CustomFont.SETTING);
 		lblSettings.setForeground(CustomColor.YELLOW);
 		panelSettings.add(lblSettings, gbc_lblSettings);
 		
@@ -229,6 +262,7 @@ public class GridView extends JFrame {
 
 		// [Rows label]
 		lblRows = new JLabel("Rows");
+		lblRows.setFont(CustomFont.SETTING);
 		lblRows.setForeground(CustomColor.YELLOW);
 		panelRows.add(lblRows, gbc_label);
 		
@@ -250,6 +284,7 @@ public class GridView extends JFrame {
 		
 		// [Columns label]
 		lblColumns = new JLabel("Columns");
+		lblColumns.setFont(CustomFont.SETTING);
 		lblColumns.setForeground(CustomColor.YELLOW);
 		panelColumns.add(lblColumns, gbc_label);
 		
@@ -271,15 +306,16 @@ public class GridView extends JFrame {
 		
 		// [Mines amount label]
 		lblMinesAmount = new JLabel("Mines amount");
+		lblMinesAmount.setFont(CustomFont.SETTING);
 		lblMinesAmount.setForeground(CustomColor.YELLOW);
 		panelMinesAmount.add(lblMinesAmount, gbc_label);
 		
 		// [Mines amount slider]
-		sliderMinesAmount = CustomComponent.createJSlider("Mines slider", 2, 30, 10, controller);
+		sliderMinesAmount = CustomComponent.createJSlider("Mines slider", 5, 30, 10, controller);
 		panelMinesAmount.add(sliderMinesAmount, gbc_slider);
 		
 		// [Mines amount spinner]
-		spinnerMinesAmount = CustomComponent.createJSpinner("Mines spinner", 2, 30, 10, controller);
+		spinnerMinesAmount = CustomComponent.createJSpinner("Mines spinner", 5, 30, 10, controller);
 		panelMinesAmount.add(spinnerMinesAmount, gbc_spinner);
 		setMaxMinesAmount();
 		
@@ -326,10 +362,13 @@ public class GridView extends JFrame {
 				panelCells.add(cell);
 			}
 		}
-		this.grid = new Grid(rows, columns, minesAmount);
-		panelButtons.setPreferredSize(new Dimension(Math.max(160, columns * 30), 36));
+		grid = new Grid(rows, columns, minesAmount);
+		panelButtons.setPreferredSize(new Dimension(Math.max(300, columns * CELL_SIZE) - lblTimer.getSize().width, 40));
 		panelButtons.revalidate();
 		panelButtons.repaint();
+		gameDone = false;
+		lblTimer.setText("00:00");
+		timer.stop();
 	}
 	
 	public List<CellJButton> getCells(){
@@ -349,6 +388,7 @@ public class GridView extends JFrame {
 		panelButtons.setVisible(true);
 		if (firstGame) {
 			addCloseButton();
+			lblTimer.setIcon(Icon.TIMER);
 			firstGame = false;
 		}
 		initialiseCells(getRows(), getColumns(), getMinesAmount());
@@ -359,16 +399,33 @@ public class GridView extends JFrame {
 		mainPanel.add(panelCellsContainer, BorderLayout.CENTER);
 		mainPanel.revalidate();
 		mainPanel.repaint();
+		if (!gameDone) resumeTimer();
 	}
 	
 	public void openSettings() {
+		elapsedSettingsTime = System.currentTimeMillis();
 		mainPanel.remove(panelCellsContainer);
 		mainPanel.add(panelSettingsContainer, BorderLayout.CENTER);
 		mainPanel.revalidate();
 		mainPanel.repaint();
+		timer.stop();
+	}
+	
+	public void startTimer() {
+		startTime = System.currentTimeMillis();
+		timer.start();
+	}
+	
+	public void resumeTimer() {
+		elapsedSettingsTime = System.currentTimeMillis() - elapsedSettingsTime;
+		startTime += elapsedSettingsTime;
+		timer.start();
 	}
 	
 	public void gameDone(String text) {
+		timer.stop();
+		gameDone = true;
+		
 		JLayeredPane panelLayered = new JLayeredPane();
 		panelLayered.setPreferredSize(panelCells.getPreferredSize());
 
@@ -452,8 +509,9 @@ public class GridView extends JFrame {
 	
 	public void setMaxMinesAmount() {
 		int maxAmount = (int) (sliderRows.getValue() * sliderColumns.getValue() * 0.5f);
-		spinnerMinesAmount.setModel(new SpinnerNumberModel(Math.min(sliderMinesAmount.getValue(), maxAmount), 2, maxAmount, 1));
+		spinnerMinesAmount.setModel(new SpinnerNumberModel(Math.min(sliderMinesAmount.getValue(), maxAmount), 5, maxAmount, 1));
 		JTextField spinnerField = (JTextField) spinnerMinesAmount.getEditor().getComponent(0);
+		spinnerField.setFont(CustomFont.SETTING);
 		spinnerField.setBackground(CustomColor.DARK_GRAY);
 		spinnerField.setForeground(CustomColor.YELLOW);
 		spinnerField.setBorder(new CompoundBorder(CustomComponent.PURPLE_BORDER, new EmptyBorder(0, 0, 0, 5)));

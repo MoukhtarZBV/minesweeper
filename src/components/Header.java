@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import ihm.CustomColor;
+import ihm.CustomFont;
 import ihm.Icon;
 import ihm.Screen;
 
@@ -60,7 +61,7 @@ public class Header extends JPanel {
 		leading.add(logo, BorderLayout.WEST);
 		
 		titre = new JLabel("Title");
-		titre.setFont(new Font("Arial", Font.PLAIN, 18));
+		titre.setFont(CustomFont.TITLE);
 		titre.setForeground(CustomColor.WHITE);
 		titre.setOpaque(false);
 		leading.add(titre, BorderLayout.CENTER);

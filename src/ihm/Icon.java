@@ -22,10 +22,16 @@ public class Icon {
 	public static final ImageIcon SIX = Icon.getIcon("six");
 	public static final ImageIcon SEVEN = Icon.getIcon("seven");
 	public static final ImageIcon EIGHT = Icon.getIcon("eight");
+	public static final ImageIcon TIMER = Icon.getIcon("timer", 25, 25);
 	public static final ImageIcon APP_ICON = Icon.getIcon("appIcon");
 	
 	private static ImageIcon getIcon(String type) {
         ImageIcon originalIcon = new ImageIcon(CellJButton.class.getResource("/images/" + type + ".png"));
         return new ImageIcon(originalIcon.getImage().getScaledInstance(GridView.CELL_SIZE, GridView.CELL_SIZE, Image.SCALE_SMOOTH));
+    }
+	
+	private static ImageIcon getIcon(String type, int xSize, int ySize) {
+        ImageIcon originalIcon = new ImageIcon(CellJButton.class.getResource("/images/" + type + ".png"));
+        return new ImageIcon(originalIcon.getImage().getScaledInstance(xSize, ySize, Image.SCALE_SMOOTH));
     }
 }

@@ -64,13 +64,17 @@ public class GridModel {
 			State state = State.getState(grid.numberOfAdjacentMines(x, y));
 			cell.setState(state);
 			numberOfCellsDiscovered++;
-			if (numberOfCellsDiscovered == grid.getColumns() * grid.getRows() - grid.getNumberOfMines()) {
+			if (allCellsDiscovered(grid)) {
 				return State.LAST;
 			}
 			return state;
 		}
 		cell.setState(State.MINE);
 		return State.MINE;
+	}
+
+	public boolean allCellsDiscovered(Grid grid) {
+		return numberOfCellsDiscovered == grid.getColumns() * grid.getRows() - grid.getNumberOfMines();
 	}
 	
 	public void changeMinePosition(int x, int y, Grid grid) {

@@ -61,11 +61,14 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 					if (cellState == State.EMPTY) {
 						model.removeOneNumberOfCellsDiscovered();
 						model.discoverSurroundingEmptys(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
+						checkAllCellsDiscovered();
 					} else if (cellState == State.MINE) {
 						model.changeMinePosition(cell.getRow(), cell.getColumn(), view.getGrid());
 						model.discoverSurroundingEmptys(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
+						checkAllCellsDiscovered();
 					}
 					view.setActiveNewGame(true);
+					view.startTimer();
 					this.state = ControllerState.GAME_ONGOING;
 				}
 			} else if (e.getSource() instanceof JButton) {
@@ -85,12 +88,13 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 					if (cellState == State.EMPTY) {
 						model.removeOneNumberOfCellsDiscovered();
 						model.discoverSurroundingEmptys(cell.getRow(), cell.getColumn(), view.getCells(), view.getGrid());
+						checkAllCellsDiscovered();
 					} else if (cellState == State.MINE) {
 						model.gameOver(view.getCells(), view.getGrid());
 						view.gameDone("GAME OVER !");
 						this.state = ControllerState.GAME_FINISHED;
 					} else if (cellState == State.LAST) {
-						view.gameDone("YOU WIN !");
+						view.gameDone("GAME WON !");
 						this.state = ControllerState.GAME_FINISHED;
 					}
 				}
@@ -125,6 +129,13 @@ public class GridController implements ActionListener, MouseListener, ChangeList
 			break;
 		}
 		
+	}
+
+	public void checkAllCellsDiscovered() {
+		if (model.allCellsDiscovered(view.getGrid())) {
+			view.gameDone("GAME WON !");
+			this.state = ControllerState.GAME_FINISHED;
+		}
 	}
 	
 	@Override

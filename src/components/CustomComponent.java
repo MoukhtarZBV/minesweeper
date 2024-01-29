@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import ihm.CustomColor;
+import ihm.CustomFont;
 import minesweeper.GridController;
 
 public class CustomComponent {
@@ -28,6 +29,7 @@ public class CustomComponent {
 	// [Components]
 	public static JButton createButton(String name, GridController controller) {
 		JButton button = new JButton(name);
+		button.setFont(CustomFont.LABEL);
 		button.setForeground(CustomColor.YELLOW);
 		button.setBackground(CustomColor.DARK_GRAY.darker());
 		button.setBorder(CustomComponent.BUTTON_BORDER);
@@ -64,6 +66,7 @@ public class CustomComponent {
 		spinner.getEditor().setBackground(CustomColor.DARK_GRAY);
 		spinner.addChangeListener(controller);
 		JTextField spinnerField = (JTextField) spinner.getEditor().getComponent(0);
+		spinnerField.setFont(CustomFont.SETTING);
 		spinnerField.setBackground(CustomColor.DARK_GRAY);
 		spinnerField.setForeground(CustomColor.YELLOW);
 		spinnerField.setBorder(CustomComponent.PURPLE_BORDER);
